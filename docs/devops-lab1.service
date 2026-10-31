@@ -1,0 +1,15 @@
+[Unit]
+Description=Rishav DevOps Lab 1
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/rishav-devops-lab1
+ExecStart=/opt/rishav-devops-lab1/.venv/bin/gunicorn --bind 127.0.0.1:5001 --workers 2 app.app:app
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
