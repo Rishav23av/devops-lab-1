@@ -1,0 +1,7 @@
+Local checks - 18 November 2026
+Rishav | 2301730245
+
+Python 3.14.5: 3 unit tests passed.
+Deployment script: bash syntax check passed.
+GitHub Actions: Python 3.12 tests passed.
+Jenkins and systemd deployment require a configured Ubuntu host.
