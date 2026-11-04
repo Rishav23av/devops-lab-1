@@ -8,6 +8,8 @@ pipeline {
     parameters {
         booleanParam(name: 'DEPLOY', defaultValue: false,
                      description: 'Deploy to the configured Ubuntu service')
+        choice(name: 'DEPLOY_TARGET', choices: ['systemd', 'docker'],
+               description: 'Use systemd on Ubuntu or Docker for a local lab')
     }
     stages {
         stage('Checkout') {
@@ -36,7 +38,15 @@ pipeline {
         }
         stage('Deploy') {
             when { expression { params.DEPLOY } }
-            steps { sh 'sudo -n /usr/local/sbin/deploy-lab1 "$WORKSPACE"' }
+            steps {
+                script {
+                    if (params.DEPLOY_TARGET == 'docker') {
+                        sh 'bash scripts/deploy-container.sh'
+                    } else {
+                        sh 'sudo -n /usr/local/sbin/deploy-lab1 "$WORKSPACE"'
+                    }
+                }
+            }
         }
     }
     post {

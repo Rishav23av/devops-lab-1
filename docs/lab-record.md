@@ -41,6 +41,11 @@ installation during deployment also runs as root.
 The script copies the app, installs its runtime dependencies, restarts the service
 and waits for `/health`. A failed health check fails the pipeline.
 
+The Docker alternative is `DEPLOY=true`, `DEPLOY_TARGET=docker` in Jenkins.
+It runs `scripts/deploy-container.sh`, builds the current source, starts the app
+on port 5011 and checks health inside the container. This is also usable on a
+Mac or Windows Docker host. The systemd configuration above remains the Ubuntu option.
+
 **4. Git and Jenkins setup**
 
 Install Jenkins using the [official Ubuntu instructions](https://www.jenkins.io/doc/book/installing/linux/).

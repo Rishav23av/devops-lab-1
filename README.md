@@ -34,3 +34,7 @@ plugins. The pipeline checks for changes every five minutes after its first run.
 Deployment is enabled with the `DEPLOY` build parameter after the Linux service
 is configured. Setup and lab commands are in [docs/lab-record.md](docs/lab-record.md).
 GitHub Actions also runs the unit tests on pushes and pull requests.
+
+For a local Docker host, enable `DEPLOY` and select `DEPLOY_TARGET=docker`.
+The pipeline builds and replaces the lab container, then checks its health.
+This version is available at `http://localhost:5011` without a systemd host.
