@@ -4,4 +4,7 @@ Rishav | 2301730245
 Python 3.14.5: 3 unit tests passed.
 Deployment script: bash syntax check passed.
 GitHub Actions: Python 3.12 tests passed.
-Jenkins and systemd deployment require a configured Ubuntu host.
+Jenkins 2.580.2 build 2: SUCCESS, including the Docker deployment stage.
+The deployed container responded with UP on port 5011.
+The systemd deployment remains an Ubuntu alternative and was not run on macOS.
+Six real run screenshots and seven question-wise PDF reports are included.

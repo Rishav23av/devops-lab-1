@@ -38,3 +38,9 @@ GitHub Actions also runs the unit tests on pushes and pull requests.
 For a local Docker host, enable `DEPLOY` and select `DEPLOY_TARGET=docker`.
 The pipeline builds and replaces the lab container, then checks its health.
 This version is available at `http://localhost:5011` without a systemd host.
+
+**Reports and screenshots**
+
+[Question-wise PDF reports](reports/README.md) | [Run screenshots](docs/screenshots/README.md) | [Command output](docs/commands/)
+
+![Lab 1 run](docs/screenshots/q7-jenkins-stages.jpg)
