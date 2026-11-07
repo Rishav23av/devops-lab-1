@@ -1,0 +1,16 @@
+DevOps Lab 1 - local checks
+Rishav | Roll no. 2301730245
+18 November 2026
+
+$ git status --short --branch
+## main...origin/main
+
+
+$ git log --oneline -3
+7f3d62c Record local lab checks
+8906980 Add Flask app and Jenkins CI pipeline
+
+
+$ python -m pytest tests/ -q
+...                                                                      [100%]
+3 passed in 0.08s

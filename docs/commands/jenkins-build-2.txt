@@ -1,0 +1,179 @@
+Started by user rishav
+Obtained Jenkinsfile from git https://github.com/Rishav23av/devops-lab-1.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/devops-lab-1
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/devops-lab-1/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Rishav23av/devops-lab-1.git # timeout=10
+Fetching upstream changes from https://github.com/Rishav23av/devops-lab-1.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --tags --force --progress -- https://github.com/Rishav23av/devops-lab-1.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision c9154a4eec2d200d825525d3720fe60924c89436 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f c9154a4eec2d200d825525d3720fe60924c89436 # timeout=10
+Commit message: "Add local Docker deployment option"
+ > git rev-list --no-walk c9154a4eec2d200d825525d3720fe60924c89436 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] sh
++ python3 -m venv .venv
+[Pipeline] sh
++ .venv/bin/python -m pip install -r requirements-dev.txt
+Requirement already satisfied: Flask==3.1.3 in ./.venv/lib/python3.13/site-packages (from -r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (3.1.3)
+Requirement already satisfied: gunicorn==27.0.1 in ./.venv/lib/python3.13/site-packages (from -r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 2)) (27.0.1)
+Requirement already satisfied: pytest==9.2.0 in ./.venv/lib/python3.13/site-packages (from -r requirements-dev.txt (line 2)) (9.2.0)
+Requirement already satisfied: blinker>=1.9.0 in ./.venv/lib/python3.13/site-packages (from Flask==3.1.3->-r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in ./.venv/lib/python3.13/site-packages (from Flask==3.1.3->-r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (8.5.1)
+Requirement already satisfied: itsdangerous>=2.2.0 in ./.venv/lib/python3.13/site-packages (from Flask==3.1.3->-r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in ./.venv/lib/python3.13/site-packages (from Flask==3.1.3->-r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in ./.venv/lib/python3.13/site-packages (from Flask==3.1.3->-r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (3.0.4)
+Requirement already satisfied: werkzeug>=3.1.0 in ./.venv/lib/python3.13/site-packages (from Flask==3.1.3->-r /var/jenkins_home/workspace/devops-lab-1/app/requirements.txt (line 1)) (3.1.9)
+Requirement already satisfied: iniconfig>=2 in ./.venv/lib/python3.13/site-packages (from pytest==9.2.0->-r requirements-dev.txt (line 2)) (2.3.1)
+Requirement already satisfied: packaging>=24 in ./.venv/lib/python3.13/site-packages (from pytest==9.2.0->-r requirements-dev.txt (line 2)) (26.3)
+Requirement already satisfied: pluggy<2,>=1.6 in ./.venv/lib/python3.13/site-packages (from pytest==9.2.0->-r requirements-dev.txt (line 2)) (1.7.0)
+Requirement already satisfied: pygments>=2.15 in ./.venv/lib/python3.13/site-packages (from pytest==9.2.0->-r requirements-dev.txt (line 2)) (2.21.0)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] sh
++ mkdir -p test-results
+[Pipeline] sh
++ .venv/bin/python -m pytest tests/ -v --junitxml=test-results/pytest.xml
+============================= test session starts ==============================
+platform linux -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0 -- /var/jenkins_home/workspace/devops-lab-1/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /var/jenkins_home/workspace/devops-lab-1
+collecting ... collected 3 items
+
+tests/test_app.py::test_home_contains_student_details PASSED             [ 33%]
+tests/test_app.py::test_health PASSED                                    [ 66%]
+tests/test_app.py::test_unknown_route PASSED                             [100%]
+
+- generated xml file: /var/jenkins_home/workspace/devops-lab-1/test-results/pytest.xml -
+============================== 3 passed in 0.05s ===============================
+Post stage
+[Pipeline] junit
+Recording test results
+[Checks API] No suitable checks publisher found.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Package)
+[Pipeline] sh
++ mkdir -p dist
++ tar --exclude=__pycache__ -czf dist/lab1-2.tar.gz app scripts docs/devops-lab1.service
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ bash scripts/deploy-container.sh
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 335B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim
+#2 DONE 0.4s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 123B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 533B done
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#5 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b done
+#5 DONE 0.0s
+
+#6 [2/5] WORKDIR /srv/app
+#6 CACHED
+
+#7 [3/5] COPY app/requirements.txt ./requirements.txt
+#7 DONE 0.1s
+
+#8 [4/5] RUN pip install --no-cache-dir -r requirements.txt     && useradd --create-home --uid 10001 appuser
+#8 1.293 Collecting Flask==3.1.3 (from -r requirements.txt (line 1))
+#8 1.350   Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+#8 1.380 Collecting gunicorn==27.0.1 (from -r requirements.txt (line 2))
+#8 1.395   Downloading gunicorn-27.0.1-py3-none-any.whl.metadata (5.6 kB)
+#8 1.411 Collecting blinker>=1.9.0 (from Flask==3.1.3->-r requirements.txt (line 1))
+#8 1.422   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+#8 1.439 Collecting click>=8.1.3 (from Flask==3.1.3->-r requirements.txt (line 1))
+#8 1.451   Downloading click-8.5.1-py3-none-any.whl.metadata (2.6 kB)
+#8 1.465 Collecting itsdangerous>=2.2.0 (from Flask==3.1.3->-r requirements.txt (line 1))
+#8 1.476   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+#8 1.492 Collecting jinja2>=3.1.2 (from Flask==3.1.3->-r requirements.txt (line 1))
+#8 1.501   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#8 1.803 Collecting markupsafe>=2.1.1 (from Flask==3.1.3->-r requirements.txt (line 1))
+#8 1.816   Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
+#8 2.777 Collecting werkzeug>=3.1.0 (from Flask==3.1.3->-r requirements.txt (line 1))
+#8 2.797   Downloading werkzeug-3.1.9-py3-none-any.whl.metadata (4.1 kB)
+#8 2.812 Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+#8 2.846 Downloading gunicorn-27.0.1-py3-none-any.whl (263 kB)
+#8 2.926 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+#8 2.942 Downloading click-8.5.1-py3-none-any.whl (126 kB)
+#8 2.991 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#8 3.010 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#8 3.058 Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (24 kB)
+#8 3.094 Downloading werkzeug-3.1.9-py3-none-any.whl (228 kB)
+#8 3.214 Installing collected packages: markupsafe, itsdangerous, gunicorn, click, blinker, werkzeug, jinja2, Flask
+#8 3.663 Successfully installed Flask-3.1.3 blinker-1.9.0 click-8.5.1 gunicorn-27.0.1 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.4 werkzeug-3.1.9
+#8 3.663 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 4.258
+#8 4.258 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#8 4.258 [notice] To update, run: pip install --upgrade pip
+#8 DONE 4.4s
+
+#9 [5/5] COPY app/ ./
+#9 DONE 0.0s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 0.4s done
+#10 exporting manifest sha256:1b8d4675cba930ffbd9b74162381b9c85012866be6664f860b1dacfb433b10a4 done
+#10 exporting config sha256:8e7e7c88a03246b340f64c238d90d0f8d2073bfa1d1d2760326d3b60f4966a2e done
+#10 exporting attestation manifest sha256:6785a55937949cefc3ab5b9efe53a1d48534993e16b6ee471e9c2296773b681a done
+#10 exporting manifest list sha256:1beb863b341f8af82296aa7cf0c66ef664e530c047a1eb88bd72cdcb160507d5 done
+#10 naming to docker.io/library/devops-lab1-app:2 done
+#10 unpacking to docker.io/library/devops-lab1-app:2 0.1s done
+#10 DONE 0.6s
+2fa04b1f347c358480b479da3e4790f498b6b404d017897cd232780016b88b9f
+{"status":"UP","version":"1.0.0"}
+
+Container deployment passed the health check on port 5011.
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Lab 1 build passed
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

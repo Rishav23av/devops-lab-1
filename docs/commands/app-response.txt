@@ -1,0 +1,10 @@
+DevOps Lab 1
+Rishav | Roll no. 2301730245
+Captured on 18 November 2026
+
+$ curl --fail http://localhost:5001/
+{"message":"Welcome to Rishav's DevOps Lab 1","name":"Rishav","roll_no":"2301730245","version":"1.0.0"}
+
+
+$ curl --fail http://localhost:5001/health
+{"status":"UP","version":"1.0.0"}
