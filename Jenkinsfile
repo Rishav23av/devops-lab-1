@@ -6,9 +6,9 @@ pipeline {
     }
     triggers { pollSCM('H/5 * * * *') }
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: false,
-                     description: 'Deploy to the configured Ubuntu service')
-        choice(name: 'DEPLOY_TARGET', choices: ['systemd', 'docker'],
+        booleanParam(name: 'DEPLOY', defaultValue: true,
+                     description: 'Deploy after the tests pass')
+        choice(name: 'DEPLOY_TARGET', choices: ['docker', 'systemd'],
                description: 'Use systemd on Ubuntu or Docker for a local lab')
     }
     stages {
@@ -32,8 +32,8 @@ pipeline {
         }
         stage('Package') {
             steps {
-                sh 'mkdir -p dist && tar --exclude=__pycache__ -czf dist/lab1-${BUILD_NUMBER}.tar.gz app scripts docs/devops-lab1.service'
-                archiveArtifacts artifacts: 'dist/*.tar.gz', fingerprint: true
+                sh 'mkdir -p dist && tar --exclude=__pycache__ -czf dist/lab1-${BUILD_NUMBER}.tar.gz app docker scripts docs/devops-lab1.service'
+                archiveArtifacts artifacts: "dist/lab1-${env.BUILD_NUMBER}.tar.gz", fingerprint: true
             }
         }
         stage('Deploy') {
