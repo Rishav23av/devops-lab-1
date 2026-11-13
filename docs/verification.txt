@@ -1,10 +1,12 @@
-Local checks - 18 November 2026
-Rishav | 2301730245
+Submission checks - 18 November 2026
+Rishav | Roll no. 2301730245
 
-Python 3.14.5: 3 unit tests passed.
-Deployment script: bash syntax check passed.
-GitHub Actions: Python 3.12 tests passed.
-Jenkins 2.580.2 build 2: SUCCESS, including the Docker deployment stage.
-The deployed container responded with UP on port 5011.
-The systemd deployment remains an Ubuntu alternative and was not run on macOS.
-Six real run screenshots and seven question-wise PDF reports are included.
+3 application tests passed.
+Ubuntu 24.04: Git installed; global name, email and initial branch verified.
+Feature branch, commit, fast-forward merge and GitHub push recorded.
+Jenkins SCM-triggered build 2 completed build, tests, package and Docker deployment.
+The deployed app answered health on port 5011.
+The systemd service remains an Ubuntu deployment alternative.
+
+10 real screenshots; 7 question-wise PDF reports.
+The screenshot and command-output dates record actual runs.

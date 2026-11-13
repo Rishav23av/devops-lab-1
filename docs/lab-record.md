@@ -18,8 +18,9 @@ produces a numbered archive, so the artifact can be traced to a Jenkins build.
 
 **3. Automated deployment**
 
-The deployment target is an Ubuntu machine running systemd. Install Python, venv,
-curl and the service before enabling `DEPLOY` in Jenkins:
+The default deployment uses Docker and checks the container on port 5011.
+For the systemd alternative, use an Ubuntu host, select `DEPLOY_TARGET=systemd`
+and install the service:
 
 ```bash
 sudo apt update
@@ -59,18 +60,24 @@ git config user.email "174773787+Rishav23av@users.noreply.github.com"
 systemctl status jenkins
 ```
 
+**Recorded Ubuntu Git setup**
+
+Git was installed and configured inside an Ubuntu 24.04 container. The global
+identity in that container is Rishav with the GitHub noreply email. See
+`docs/commands/ubuntu-git-install.txt` and `ubuntu-git-setup.txt` for the actual
+installation and verification output. This kept the host's global Git settings
+separate from the Ubuntu exercise.
+
 **5. Version control**
 
 ```bash
-git switch -c feature/home-message
-# Edit the home message in app/app.py, then run the tests.
-python -m pytest tests/ -v
-git add app/app.py
-git commit -m "Update home message"
+git switch -c feature/submission-map
+git add docs/submission-checklist.md
+git commit -m "Add a question-wise submission map"
 git switch main
-git merge feature/home-message
+git merge --ff-only feature/submission-map
 git push origin main
-git log --oneline -5
+git log --graph --oneline -5
 ```
 
 **6. Basic Jenkins pipeline**
@@ -82,8 +89,8 @@ under Build Artifacts.
 **7. Pipeline stages**
 
 Checkout gets the current code. Build creates a virtual environment. Test checks
-the routes and student details. Package creates the archive. Deploy runs only
-after the service is configured and the build parameter is enabled. Poll SCM
+the routes and student details. Package creates the archive. Deploy runs after the tests pass. `DEPLOY=false` skips it for a build-only run.
+The Docker target is the default; systemd requires the service setup above. Poll SCM
 checks for new commits every five minutes.
 
 The tests run locally and through GitHub Actions. Jenkins and systemd use a
