@@ -1,0 +1,40 @@
+Rishav | Roll no. 2301730245
+Executed on 18 November 2026
+
+$ git switch -c feature/submission-map
+
+Switched to a new branch 'feature/submission-map'
+
+$ git add docs/submission-checklist.md
+
+
+
+$ git commit -m "Add a question-wise submission map"
+[feature/submission-map ebf2d37] Add a question-wise submission map
+ 1 file changed, 15 insertions(+)
+ create mode 100644 docs/submission-checklist.md
+
+
+$ git switch main
+Your branch is up to date with 'origin/main'.
+Switched to branch 'main'
+
+$ git merge --ff-only feature/submission-map
+Updating d5a7480..ebf2d37
+Fast-forward
+ docs/submission-checklist.md | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 docs/submission-checklist.md
+
+
+$ git push origin main
+
+To https://github.com/Rishav23av/devops-lab-1.git
+   d5a7480..ebf2d37  main -> main
+
+$ git log --graph --oneline -5
+* ebf2d37 Add a question-wise submission map
+* d5a7480 Deploy by default after successful builds
+* 11defbf Add lab reports screenshots and command records
+* c9154a4 Add local Docker deployment option
+* 7f3d62c Record local lab checks
