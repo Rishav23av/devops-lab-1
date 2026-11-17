@@ -2,28 +2,44 @@
 
 Rishav | Roll no. 2301730245
 
-Captured from the local lab runs. The browser pages show the running tools and apps. Screenshots headed "Saved command output" show the stdout saved in [docs/commands](../commands/) from those runs.
+Captured from the actual local runs. Saved-command-output pages show the stdout kept in [command records](../commands/).
 
-**App response**
+**q3 app response**
 
-![App response](q3-app-response.jpg)
+![q3 app response](q3-app-response.jpg)
 
-**Pipeline deployed app**
+**q3 pipeline deployed app**
 
-![Pipeline deployed app](q3-pipeline-deployed-app.jpg)
+![q3 pipeline deployed app](q3-pipeline-deployed-app.jpg)
 
-**Jenkins dashboard**
+**q3 scm build**
 
-![Jenkins dashboard](q4-jenkins-dashboard.jpg)
+![q3 scm build](q3-scm-build.jpg)
 
-**Git and tests**
+**q3 scm trigger**
 
-![Git and tests](q5-git-and-tests.jpg)
+![q3 scm trigger](q3-scm-trigger.jpg)
 
-**Jenkins job**
+**q4 jenkins dashboard**
 
-![Jenkins job](q6-jenkins-job.jpg)
+![q4 jenkins dashboard](q4-jenkins-dashboard.jpg)
 
-**Jenkins stages**
+**q4 ubuntu git**
 
-![Jenkins stages](q7-jenkins-stages.jpg)
+![q4 ubuntu git](q4-ubuntu-git.jpg)
+
+**q5 git and tests**
+
+![q5 git and tests](q5-git-and-tests.jpg)
+
+**q5 git branch merge**
+
+![q5 git branch merge](q5-git-branch-merge.jpg)
+
+**q6 jenkins job**
+
+![q6 jenkins job](q6-jenkins-job.jpg)
+
+**q7 jenkins stages**
+
+![q7 jenkins stages](q7-jenkins-stages.jpg)
